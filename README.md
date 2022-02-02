@@ -29,7 +29,9 @@ One iteration of BP with the improved update scheme takes: 5.926676273345947 sec
 
 The BP algorithm for the DC-SBM requires to update a series of BP equations,
 
+<p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;\mu_r^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_r}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u&space;\setminus&space;v}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}," title=" \mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}," />
+</p>
 
 where the function *g* is the Poisson probability 
 
