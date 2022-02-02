@@ -6,20 +6,61 @@ import graph_tool.all as gt
 from dcppm_state import EM_DCPPM
     
 def get_degree_prop_zipf(nr, B, gamma, x_max):
+    """
+    Input
+    -----
+    nr: number of nodes in each community
+    
+    B:  number of communities
+    
+    gamma: shape parameter of the truncated Zipf's distribution
+    
+    xmamx: a cut-off value of the Zipf's distributon
+    
+    Returns
+    -------
+    k_prop: 
+    """
     if gamma > 0:
         x = np.arange(1, np.ceil(x_max)+1)
         weights = x ** (-gamma)
         weights /= weights.sum()
         bounded_zipf = stats.rv_discrete(name='bounded_zipf', values=(x, weights))
-        k_prop = bounded_zipf.rvs(size=nr)
-        k_prop = k_prop/k_prop.sum()
-        k_prop  = np.concatenate([k_prop for r in range(B)])
+        degree_prop = bounded_zipf.rvs(size=nr)
+        degree_prop = degree_prop/degree_prop.sum()
+        degree_prop  = np.concatenate([degree_prop for r in range(B)])
     else:
-        k_prop = np.ones(nr * B)/nr
+        degree_prop = np.ones(nr * B)/nr
          
-    return k_prop
+    return degree_prop
 
 def gen_dcppm(nr, B, k, ep, gamma, xmax = None):
+    """
+    Input
+    -----
+    nr: number of nodes in each community
+    
+    B:  number of communities
+    
+    k : average degree of the network
+    
+    ep: the strength of the assortative structure, a real value in [0,1]
+    
+    gamma: shape parameter of the truncated Zipf's distribution
+    
+    xmamx: a cut-off value of the Zipf's distributon
+    
+    Returns
+    -------
+    g: a graph-tool network object
+    
+    ers: the connection matrix consistting of the number of connections between group r and s
+    
+    b: the planted network partition
+    
+    degree_prop: the degree propensity parameter used to generate the network
+    
+    """
     
     if gamma != 0 and xmax is None:
         raise "Need to specify the cut-off value of the truncated Zipf's distribution"
