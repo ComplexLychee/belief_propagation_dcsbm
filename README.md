@@ -22,7 +22,7 @@ One iteration of BP with the improved update scheme takes: 5.926676273345947 sec
 ```
 
 <p align="center">
-<img src="bp_running_time_comparison.pdf" width=450><br>
+<img src="bp_running_time_comparison.png" width=450><br>
 <b>Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
 </p>
 <br/><br/>
