@@ -11,7 +11,7 @@ Is modified: False Partition overlap before BP: 0.51
 Is modified: False Partition overlap after BP: 0.945
 ```
 
-Run the following code to see difference in running time between different ways of updating the BP equations
+Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below.
 ```
 python3.9 text_compare_bp_running_time.py
 
