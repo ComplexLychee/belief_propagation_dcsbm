@@ -17,13 +17,15 @@ python3.9 text_compare_bp_running_time.py
 
 # output
 
-One iteration of BP with the original update scheme takes: 11.91773271560669 secs!
-One iteration of BP with the improved update scheme takes: 5.926676273345947 secs!
+One iteration of BP with the original update scheme takes: 11.91773271560669 secs
+One iteration of BP with the improved update scheme takes: 5.926676273345947 secs
 ```
 
+<p align="center">
+<img src="bp_running_time_comparison.pdf" width=450><br>
+<b>Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
+</p>
 <br/><br/>
-
-
 
 The BP algorithm for the DC-SBM requires to update a series of BP equations,
 
