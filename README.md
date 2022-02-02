@@ -34,16 +34,20 @@ The BP algorithm for the DC-SBM requires to update a series of BP equations,
 </p>
 
 where the function *g* is the Poisson probability 
-
+<p align="center">
 <img src="https://latex.codecogs.com/svg.image?g(\theta_{u},&space;\theta_{v},&space;\lambda_{rs},&space;A_{uv})&space;=&space;e^{-\theta_{u}\theta_{v}\lambda_{rs}}&space;\frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}" title="g(\theta_{u}, \theta_{v}, \lambda_{rs}, A_{uv}) = e^{-\theta_{u}\theta_{v}\lambda_{rs}} \frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}," />
 
 and the <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is defined as 
 
+<p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large)." />
+</p>
 
 The marginal probability distribution of the node *u* is given by 
 
+<p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;\mu_r^u&space;=&space;\frac{\gamma_r}{Z^u}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}." title=" \mu_r^u = \frac{\gamma_r}{Z^u} e^{-H_{r}} \prod_{w \in \partial u} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}." />
+</p>
 
 #### References in the table:
 <p><a>[1] X. Yan, J. E. Jensen, F. Krzakala, C. Moore, C. R. Shalizi,
