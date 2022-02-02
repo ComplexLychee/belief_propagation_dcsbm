@@ -16,6 +16,7 @@ Run the following code to see difference in running time between different ways 
 python3.9 text_compare_bp_running_time.py
 
 # output
+
 One iteration of BP with the original update scheme takes: 11.91773271560669 secs!
 One iteration of BP with the improved update scheme takes: 5.926676273345947 secs!
 ```
