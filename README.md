@@ -27,7 +27,10 @@ Belief propagation allows direct computation of the marginal probability distrib
 Computing the marginal probability with BP requires the parameters of the model as input, which are usually not available when it comes to empirical networks. Nevetheless, we can take the ***expectaction-maximisation (EM)*** scheme and use the BP algroithm for the expectaction step[3].
 
 Another important application of the BP algorithm is in studying the phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in advancing our understanding about the detectability of planted community structure[3-4].
-### 
+
+### What is going on here
+The main pupose of this repository is to provide a reference for anyone who like to write his/her first BP implementation. Although BP is elegant and easy to comprehend, for people who are new to either the algorithm itself, there is quite a bit learning curve. The develpment process can be prolonged further if the user is new to the coding language as well. We hope the examples provided here could be a helpful reference for picking up the concept, espeically for those are familiar with Python. 
+
 <p align="center">
 <img src="bp_running_time_comparison.png" width=450><br>
 <b>Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
