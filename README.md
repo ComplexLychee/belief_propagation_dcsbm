@@ -31,14 +31,30 @@ Another important application of the BP algorithm is in studying the phase-trans
 ### What is going on here
 The main pupose of this repository is to provide a reference for anyone who like to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see the list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but like to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
 
-Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, none of any existed BP implementations has included taken this nucance into account. 
+Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has included taken this nucance into account. 
 
 <p align="center">
 <img src="bp_running_time_comparison.png" width=450><br>
-<b>Fig.1: Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
+<b>Fig.1: Comparison of the BP running time with different update scheme.</b>
 </p>
-<br/><br/>
 
+We demonstrate the difference in running time between the original and the improved update scheme of BP in Fig.1[^1]. To generate networks with heterogeneous degree distribution, we set the degree propensity value <img src="https://latex.codecogs.com/svg.image?\inline&space;\{\theta_u\}" title="\inline \{\theta_u\}" /> as follows,
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?\theta_{u&plus;nN/B}&space;=&space;\theta_{u}&space;=&space;\frac{x_{u}}{\sum_{v}^{N/B}&space;x_{v}},&space;\;\;&space;\forall&space;u&space;\in&space;\{1,2,..,N/B\},&space;\;\;&space;\forall&space;n&space;\in&space;\{1,2,..,B-1\}." title="\theta_{u+nN/B} = \theta_{u} = \frac{x_{u}}{\sum_{v}^{N/B} x_{v}}, \;\; \forall u \in \{1,2,..,N/B\}, \;\; \forall n \in \{1,2,..,B-1\}." />
+</p>
+
+where <img src="https://latex.codecogs.com/svg.image?\inline&space;\{x_u\}" title="\inline \{x_u\}" /> are samples drawn from the truncated Zipf's law
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?f_{X}(x)&space;=&space;\begin{cases}x^{-\zeta}/\sum^{x_{\text{max}}}_{x&space;=&space;1}x^{-\zeta},&space;\;\;&space;\text{if&space;}&space;1&space;\leq&space;x&space;\leq&space;x_{\text{max}};&space;x\in&space;\mathcal{Z}&space;\\0,&space;\;\;&space;\text{o.w.}\end{cases}." title="f_{X}(x) = \begin{cases}x^{-\zeta}/\sum^{x_{\text{max}}}_{x = 1}x^{-\zeta}, \;\; \text{if } 1 \leq x \leq x_{\text{max}}; x\in \mathcal{Z} \\0, \;\; \text{o.w.}\end{cases}." />
+</p>
+The comparison is done in networks with N = 10^5 nodes, B = 2 communities, and average degree equal to 5. We chose the cut-off value 50 for the truncated Zipfs' distribution. 
+
+[^1]:Results are obtained with a C++ implementation which is more efficient than the examples provided in this repository. However, making Python and C++ work together requires more work on the setup, so we only present the results here. 
+
+
+<br><br>
 ### The unncessarily repeated computations in updating BP
 The BP algorithm for the DC-SBM requires to update a series of BP equations,
 
