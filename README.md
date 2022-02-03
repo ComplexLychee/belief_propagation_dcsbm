@@ -29,14 +29,17 @@ Computing the marginal probability with BP requires the parameters of the model 
 Another important application of the BP algorithm is in studying the phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in advancing our understanding about the detectability of planted community structure[3-4].
 
 ### What is going on here
-The main pupose of this repository is to provide a reference for anyone who like to write his/her first BP implementation. Although BP is elegant and easy to comprehend, for people who are new to either the algorithm itself, there is quite a bit learning curve. The develpment process can be prolonged further if the user is new to the coding language as well. We hope the examples provided here could be a helpful reference for picking up the concept, espeically for those are familiar with Python. 
+The main pupose of this repository is to provide a reference for anyone who like to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see the list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but like to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
+
+Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, none of any existed BP implementations has included taken this nucance into account. 
 
 <p align="center">
 <img src="bp_running_time_comparison.png" width=450><br>
-<b>Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
+<b>Fig.1: Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
 </p>
 <br/><br/>
 
+### The unncessarily repeated computations in updating BP
 The BP algorithm for the DC-SBM requires to update a series of BP equations,
 
 <p align="center">
@@ -59,7 +62,19 @@ The marginal probability distribution of the node *u* is given by
 <img src="https://latex.codecogs.com/svg.image?&space;\mu_r^u&space;=&space;\frac{\gamma_r}{Z^u}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}." title=" \mu_r^u = \frac{\gamma_r}{Z^u} e^{-H_{r}} \prod_{w \in \partial u} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}." />
 </p>
 
-#### References in the table:
+### Other implementation of BP for community dection
+The following packages/softwares should provide better performance in terms of efficiency:
+
+- <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++ by <a href="https://skewed.de/tiago">Tiago Peixto</a>
+
+- <a href="https://github.com/everyxs/SBMbp/releases">Bayesian model selection of Stochastic Block Model</a>: a java implementation by <a href="https://xiaoranyan.wordpress.com/">Xiaoran Yan</a>
+
+- Modnet: a C++ implementation by <a href="http://home.itp.ac.cn/~panzhang/">Pang Zhang</a>
+
+- <a href="https://github.com/junipertcy/sbm-bp">sbm-bp</a>: a C++ implementation by <a href="https://junipertcy.info/">Tzu-Chi Yen</a> 
+
+<br><br>
+#### References:
 <p><a>[1] X. Yan, J. E. Jensen, F. Krzakala, C. Moore, C. R. Shalizi,
 L. Zdeborova, P. Zhang, and Y. Zhu, Model Selection for
 Degree-Corrected Block Models, 2014.</a>
