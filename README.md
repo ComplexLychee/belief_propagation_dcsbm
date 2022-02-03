@@ -1,5 +1,5 @@
 # belief_propagation_dcsbm
-This repository provides an implementation of the belief propagtion (BP) algorithm for fitting the degree-corrected stochastic block model (DC-SBM) as defined in [1]. This implementation is built on the <a href="https://graph-tool.skewed.de/">graph-tool library</a>[2]. The main motivation behind this repository is to demonstrate how to put the BP algorithm into practice. We hope this could be helpful for those who come across the BP for the first time and like to build their own implementations.
+This repository provides an implementation of the belief propagtion (BP) algorithm for fitting the degree-corrected stochastic block model (DC-SBM) defined in [1]. Such implementation allows practitioners to conduct ***community detection*** in networks with heterogeneous degree distribution. This implementation is built on the <a href="https://graph-tool.skewed.de/">graph-tool library</a>[2]. The main motivation behind this repository is to demonstrate how to put the BP algorithm into practice. We hope this could be helpful for those who come across the BP for the first time and like to build their own implementations.
 
 Run the following code to see whether the BP algorithm is really working.
 ```
@@ -7,11 +7,11 @@ python3.9 text_bp_accuracy.py
 
 # output
 
-Is modified: False Partition overlap before BP: 0.51
-Is modified: False Partition overlap after BP: 0.945
+Is modified: False; Partition overlap before BP: 0.51
+Is modified: False; Partition overlap after BP: 0.945
 ```
 
-Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below.
+Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below. `gen_dcppm`
 ```
 python3.9 text_compare_bp_running_time.py
 
@@ -21,6 +21,13 @@ One iteration of BP with the original update scheme takes: 11.91773271560669 sec
 One iteration of BP with the improved update scheme takes: 5.926676273345947 secs
 ```
 
+### Why BP
+Belief propagation allows direct computation of the marginal probability distribution of variables in graphs. For networks generated from the stochastic block models(SBMs), assigning nodes into group according to the marginal probability distribution is ***optimal*** in terms of the number of nodes bring corrected labeled. Although it is possible to obtain the same marginal by drawing samples via MCMC, belief propagation is more efficient with a computation complexity which is linearly dependant on the size of the system.
+
+Computing the marginal probability with BP requires the parameters of the model as input, which are usually not available when it comes to empirical networks. Nevetheless, we can take the ***expectaction-maximisation (EM)*** scheme and use the BP algroithm for the expectaction step[3].
+
+Another important application of the BP algorithm is in studying the phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in advancing our understanding about the detectability of planted community structure[3-4].
+### 
 <p align="center">
 <img src="bp_running_time_comparison.png" width=450><br>
 <b>Comparison of the BP running time with different update scheme. Results are obtained with a C++ implementation which is more efficient than the one available in this repository. However, making Python and C++ work together requires more careful setup, so we only present the results here.  </b>
@@ -54,3 +61,5 @@ The marginal probability distribution of the node *u* is given by
 L. Zdeborova, P. Zhang, and Y. Zhu, Model Selection for
 Degree-Corrected Block Models, 2014.</a>
 <p><a>[2] Tiago P. Peixoto. The graph-tool python library. figshare, 2014. </a>
+<p><a>[3] Decelle, Aurelien, et al. "Asymptotic analysis of the stochastic block model for modular networks and its algorithmic applications." Physical Review E 84.6 (2011): 066106.</a>
+<p><a>[4] Zhang, Pan, Cristopher Moore, and M. E. J. Newman. "Community detection in networks with unequal groups." Physical review E 93.1 (2016): 012303.
