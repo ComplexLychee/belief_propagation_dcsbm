@@ -11,7 +11,7 @@ Is modified: False; Partition overlap before BP: 0.51
 Is modified: False; Partition overlap after BP: 0.945
 ```
 
-Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below. `gen_dcppm`
+Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below.
 ```
 python3.9 text_compare_bp_running_time.py
 
@@ -29,7 +29,7 @@ Computing the marginal probability with BP requires the parameters of the model 
 Another important application of the BP algorithm is in studying the phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in advancing our understanding about the detectability of planted community structure[3-4].
 
 ### What is going on here
-The main pupose of this repository is to provide a reference for anyone who like to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see the list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but like to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
+The main pupose of this repository is to provide a reference for anyone who wants to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see a list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but likes to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
 
 Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has included taken this nucance into account. 
 
@@ -49,7 +49,7 @@ where <img src="https://latex.codecogs.com/svg.image?\inline&space;\{x_u\}" titl
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?f_{X}(x)&space;=&space;\begin{cases}x^{-\zeta}/\sum^{x_{\text{max}}}_{x&space;=&space;1}x^{-\zeta},&space;\;\;&space;\text{if&space;}&space;1&space;\leq&space;x&space;\leq&space;x_{\text{max}};&space;x\in&space;\mathcal{Z}&space;\\0,&space;\;\;&space;\text{o.w.}\end{cases}." title="f_{X}(x) = \begin{cases}x^{-\zeta}/\sum^{x_{\text{max}}}_{x = 1}x^{-\zeta}, \;\; \text{if } 1 \leq x \leq x_{\text{max}}; x\in \mathcal{Z} \\0, \;\; \text{o.w.}\end{cases}." />
 </p>
-The comparison is done in networks with N = 10^5 nodes, B = 2 communities, and average degree equal to 5. We chose the cut-off value 50 for the truncated Zipfs' distribution. 
+Our comparison is done in networks with N = 10^5 nodes, B = 2 communities, and average degree equal to 5. We chose the cut-off value 50 for the truncated Zipfs' distribution. As shown in Fig.1, when the average degree is fixed, the adavantgae of the improved updating scheme becomes more clear as as the level of heterogeneity of degree distribution increases. Even when the degree propensity parameters are set to be uniform (when the shape parameter is set to infinity),the improved scheme requires less running time than the original scheme. For details about the difference between the two update scheme, see next section below.
 
 [^1]:Results are obtained with a C++ implementation which is more efficient than the examples provided in this repository. However, making Python and C++ work together requires more work on the setup, so we only present the results here. 
 
@@ -79,15 +79,15 @@ The marginal probability distribution of the node *u* is given by
 </p>
 
 ### Other implementation of BP for community dection
-The following packages/softwares should provide better performance in terms of efficiency:
+If you have your data and like to apply BP to analyse your data, you might want check one of the following available packages:
 
-- <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++ by <a href="https://skewed.de/tiago">Tiago Peixto</a>
+- <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++
 
-- <a href="https://github.com/everyxs/SBMbp/releases">Bayesian model selection of Stochastic Block Model</a>: a java implementation by <a href="https://xiaoranyan.wordpress.com/">Xiaoran Yan</a>
+- <a href="https://github.com/everyxs/SBMbp/releases">Bayesian model selection of Stochastic Block Model</a>: a java implementation
+- 
+- Modnet: a C++ implementation
 
-- Modnet: a C++ implementation by <a href="http://home.itp.ac.cn/~panzhang/">Pang Zhang</a>
-
-- <a href="https://github.com/junipertcy/sbm-bp">sbm-bp</a>: a C++ implementation by <a href="https://junipertcy.info/">Tzu-Chi Yen</a> 
+- <a href="https://github.com/junipertcy/sbm-bp">sbm-bp</a>: a C++ implementation
 
 <br><br>
 #### References:
