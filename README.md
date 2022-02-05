@@ -34,7 +34,7 @@ The main pupose of this repository is to provide a reference for anyone who want
 Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has included taken this nucance into account. 
 
 <p align="center">
-<img src="bp_running_time_comparison.png" width=450><br>
+<img src="/pics/bp_running_time_comparison.png" width=450><br>
 <b>Fig.1: Comparison of the BP running time with different update scheme.</b>
 </p>
 
@@ -70,6 +70,11 @@ and the <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is d
 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large) ." />
+</p>
+
+<p align="center">
+<img src="/pics/bp_repeated_computation.pdf" width=450><br>
+<b>Fig.1: Comparison of the BP running time with different update scheme.</b>
 </p>
 
 The marginal probability distribution of the node *u* is given by 
