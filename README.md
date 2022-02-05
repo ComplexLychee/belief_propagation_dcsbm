@@ -103,7 +103,7 @@ which could be prohibitively expensive, especially in networks with large-degree
 We have implmented both of the original and the improved ways for updating BP equations. The different in running time between the two update scheme can be seen by excuting the `test_compare_bp_running_time.py` file. One can play around with the parameters of the simulation to see how does the difference between the two changes. For example, as shown in Fig.1, if one change shape parameter of the Zipf's distribution <img src="https://latex.codecogs.com/svg.image?\zeta" title="\zeta" />, the degree distribution should becomes more heterogeneous, making the advantage of the improved updating scheme more clear. 
 
 ### Other implementation of BP for community dection
-If you have your data and like to apply BP to analyse your data, you might want check one of the following available packages:
+If you have networks and like to apply BP (EM) to identify communities in them, you might want to the following available packages, which are efficient and pratical than the examples we provide in this repository.
 
 - <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++
 
