@@ -73,7 +73,7 @@ and the <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is d
 </p>
 
 <p align="center">
-<img src="/pics/bp_repeated_computation.pdf" width=450><br>
+<img src="/pics/bp_repeated_computations.png" width=300><br>
 <b>Fig.1: Comparison of the BP running time with different update scheme.</b>
 </p>
 
