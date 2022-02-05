@@ -56,40 +56,51 @@ Our comparison is done in networks with N = 10^5 nodes, B = 2 communities, and a
 
 <br><br>
 ### The unncessarily repeated computations in updating BP
-The BP algorithm for the DC-SBM requires to update a series of BP equations,
-
+To explain the reapeated computations which have been overlooked by existed implementation of BP, we firstly recall the BP messages to be updated for the DC-SBM: 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;\mu_r^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_r}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u&space;\setminus&space;v}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}," title=" \mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}," />
 </p>
 
-where the function *g* is the Poisson probability 
+where <img src="https://latex.codecogs.com/svg.image?\inline&space;\partial&space;u" title="\inline \partial u" /> is the neighbouring set of node <img src="https://latex.codecogs.com/svg.image?\inline&space;u" title="\inline u" />, and the function *g* is the Poisson probability 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?g(\theta_{u},&space;\theta_{v},&space;\lambda_{rs},&space;A_{uv})&space;=&space;e^{-\theta_{u}\theta_{v}\lambda_{rs}}&space;\frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}" title="g(\theta_{u}, \theta_{v}, \lambda_{rs}, A_{uv}) = e^{-\theta_{u}\theta_{v}\lambda_{rs}} \frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!} ," />
 
-and the <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is defined as 
+The <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is defined as 
 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large) ." />
 </p>
+For detailed derivation please refer to the paper by Xiaoran Yan[1].
 
+Now consider a node *u* in the network and the messages sending out to its two neighbours, say _v1_ and _v2_. Many terms are repeatedly computeted in the product in the equation (1). Specifically, the following ratio value is the same but will be recomputed when we update messages sending from _u_ to _v1_ and _v2_,  
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}," title=" \mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}," />
+</p>
+
+for any node *w* which is also a neightour of node *u*.
 <p align="center">
 <img src="/pics/bp_repeated_computations.png" width=300><br>
-<b>Fig.1: Comparison of the BP running time with different update scheme.</b>
+<b>Fig.2: Nodes on the left-hand-side of grey dashed arc are neighbours of node _u_ except for the two nodes _v1_ and _v2_. They send the same information to the node _u_ when we update the two messages sending out from _u_ to _v1_ and _v2_. </b>
 </p>
 
-The marginal probability distribution of the node *u* is given by 
+The amount of wasted computations is roughly at the scale of 
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?&space;\mu_r^u&space;=&space;\frac{\gamma_r}{Z^u}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}." title=" \mu_r^u = \frac{\gamma_r}{Z^u} e^{-H_{r}} \prod_{w \in \partial u} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}." />
-</p>
+  <img src="https://latex.codecogs.com/svg.image?\sum_{(u,v)&space;\in&space;\mathcal{E}}&space;k_{u}B&space;=&space;\sum_{u}^{N}&space;k_{u}^{2}B," title="\sum_{(u,v) \in \mathcal{E}} k_{u}B = \sum_{u}^{N} k_{u}^{2}B,"/></p>
+   
+which could be prohibitively expensive, especially in heterogeneous networks with large-degree or nodes. This issue can be addressed by precomputing and maintaining the interactions between every node and all its neighbours,
 
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?\mathcal{I}^{u}_{r}&space;\coloneqq&space;\prod_{w&space;\in&space;\partial&space;u}\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}" title="\mathcal{I}^{u}_{r} \coloneqq \prod_{w \in \partial u}\frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}"/></p>
+    
 ### Other implementation of BP for community dection
 If you have your data and like to apply BP to analyse your data, you might want check one of the following available packages:
 
 - <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++
 
 - <a href="https://github.com/everyxs/SBMbp/releases">Bayesian model selection of Stochastic Block Model</a>: a java implementation
-- 
+ 
 - Modnet: a C++ implementation
 
 - <a href="https://github.com/junipertcy/sbm-bp">sbm-bp</a>: a C++ implementation
