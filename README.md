@@ -75,7 +75,8 @@ The <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is defin
 <img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)&space;\;\;&space;(3)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large) \;\; (3)" />
 </p>
 For detailed derivation please refer to the paper by Xiaoran Yan[1].
-<br>
+<br><br>
+
 Now consider a node *u* in the network and the messages sending out to its two neighbours, say _v1_ and _v2_. Many terms are repeatedly computeted in the product in the equation (1). Specifically, the following ratio value is the same but will be recomputed when we update messages sending from _u_ to _v1_ and _v2_,  
 
 <p align="center">
@@ -107,8 +108,10 @@ Then, we can update the message sending out from _u_ to _v_ as follows,
 <p align="center">
  <img src="https://latex.codecogs.com/svg.image?\mu_{r}^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_{r}}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\times&space;\mathcal{I}_{r}^{u}&space;\times&space;\left(&space;\frac{\sum_{s=1}^{B}&space;\mu_{s}^{w&space;\rightarrow&space;u}&space;g(\theta_{w},&space;\theta_{u},&space;\lambda_{rs},&space;A_{uw})}{\sum_{s=1}^{B}&space;\mu_{s}^{w}&space;g(\theta_{w},&space;\theta_{u},&space;\lambda_{rs},&space;0)}\right)^{-1}," title="\mu_{r}^{u \rightarrow v} = \frac{\gamma_{r}}{Z^{u \rightarrow v}} e^{-H_{r}} \times \mathcal{I}_{r}^{u} \times \left( \frac{\sum_{s=1}^{B} \mu_{s}^{w \rightarrow u} g(\theta_{w}, \theta_{u}, \lambda_{rs}, A_{uw})}{\sum_{s=1}^{B} \mu_{s}^{w} g(\theta_{w}, \theta_{u}, \lambda_{rs}, 0)}\right)^{-1}," />
  </p>
- which requires only constant amount of computations to update. 
-<br> 
+ 
+ which requires only a constant (independant of the degree of node _u_) amount of computations to update. 
+<br><br>
+
 We have implmented both of the original and the improved ways for updating BP equations. The different in running time between the two update scheme can be seen by excuting the `test_compare_bp_running_time.py` file. One can play around with the parameters of the simulation to see how does the difference between the two changes. For example, as shown in Fig.1, if one change shape parameter of the Zipf's distribution <img src="https://latex.codecogs.com/svg.image?\zeta" title="\zeta" />, the degree distribution should becomes more heterogeneous, making the advantage of the improved updating scheme more clear. 
 
 ### Other implementation of BP for community dection
