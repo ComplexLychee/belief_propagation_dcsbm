@@ -1,7 +1,7 @@
 # belief_propagation_dcsbm
-This repository is produced to serve as supplemental materials for the thesis ***Realistic constraints, model selection, and detectability of modular network structures***.
+This repository is produced to serve as supplemental materials for the thesis ***Realistic constraints, model selection, and detectability of modular network structures***. We also hope this could be helpful for those who come across the BP for the first time and like to build their own implementations.
 
-Here we provide an implementation of the belief propagtion (BP) algorithm for fitting the degree-corrected stochastic block model (DC-SBM) defined in [1]. Such implementation allows practitioners to conduct ***community detection*** in networks with heterogeneous degree distribution. This implementation is built on the <a href="https://graph-tool.skewed.de/">graph-tool library</a>[2]. The main motivation behind this repository is to demonstrate how to put the BP algorithm into practice. We hope this could be helpful for those who come across the BP for the first time and like to build their own implementations.
+Here we provide an implementation of the belief propagtion (BP) algorithm for fitting the degree-corrected stochastic block model (DC-SBM) defined in [1]. Such implementation allows practitioners to conduct ***community detection*** in networks with heterogeneous degree distribution. This implementation is built on the <a href="https://graph-tool.skewed.de/">graph-tool library</a>[2].
 
 Run the following code to see whether the BP algorithm is really working.
 ```
@@ -28,19 +28,19 @@ Belief propagation allows direct computation of the marginal probability distrib
 
 Computing the marginal probability with BP requires the parameters of the model as input, which are usually not available when it comes to empirical networks. Nevetheless, we can take the ***expectaction-maximisation (EM)*** scheme and use the BP algroithm for the expectaction step[3].
 
-Another important application of the BP algorithm is in studying the phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in advancing our understanding about the detectability of planted community structure[3-4].
+Another important application of the BP algorithm is in the studies of phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in shaping our understanding about the detectability of planted community structure in networks[3-4].
 
 ### What is going on here
 The main pupose of this repository is to provide a reference for anyone who wants to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see a list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but likes to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
 
-Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has included taken this nucance into account. 
+Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has taken this nucance into account. 
 
 <p align="center">
 <img src="/pics/bp_running_time_comparison.png" width=450><br>
 <b>Fig.1: Comparison of the BP running time with different update scheme.</b>
 </p>
 
-We demonstrate the difference in running time between the original and the improved update scheme of BP in Fig.1[^1]. To generate networks with heterogeneous degree distribution, we set the degree propensity value <img src="https://latex.codecogs.com/svg.image?\inline&space;\{\theta_u\}" title="\inline \{\theta_u\}" /> as follows,
+To generate networks with heterogeneous degree distribution for the comparison, we set the degree propensity value <img src="https://latex.codecogs.com/svg.image?\inline&space;\{\theta_u\}" title="\inline \{\theta_u\}" /> as follows,
 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?\theta_{u&plus;nN/B}&space;=&space;\theta_{u}&space;=&space;\frac{x_{u}}{\sum_{v}^{N/B}&space;x_{v}},&space;\;\;&space;\forall&space;u&space;\in&space;\{1,2,..,N/B\},&space;\;\;&space;\forall&space;n&space;\in&space;\{1,2,..,B-1\}." title="\theta_{u+nN/B} = \theta_{u} = \frac{x_{u}}{\sum_{v}^{N/B} x_{v}}, \;\; \forall u \in \{1,2,..,N/B\}, \;\; \forall n \in \{1,2,..,B-1\}." />
