@@ -1,5 +1,5 @@
 # belief_propagation_dcsbm
-This repository is produced to serve as supplemental materials for the thesis ***Realistic constraints, model selection, and detectability of modular network structures****.
+This repository is produced to serve as supplemental materials for the thesis ***Realistic constraints, model selection, and detectability of modular network structures***.
 
 Here we provide an implementation of the belief propagtion (BP) algorithm for fitting the degree-corrected stochastic block model (DC-SBM) defined in [1]. Such implementation allows practitioners to conduct ***community detection*** in networks with heterogeneous degree distribution. This implementation is built on the <a href="https://graph-tool.skewed.de/">graph-tool library</a>[2]. The main motivation behind this repository is to demonstrate how to put the BP algorithm into practice. We hope this could be helpful for those who come across the BP for the first time and like to build their own implementations.
 
