@@ -94,12 +94,21 @@ The amount of wasted computations is roughly at the scale of
 <img src="https://latex.codecogs.com/svg.image?\sum_{(u,v)&space;\in&space;\mathcal{E}}&space;k_{u}B&space;=&space;\sum_{u}^{N}&space;k_{u}^{2}B.&space;\;\;&space;(5)" title="\sum_{(u,v) \in \mathcal{E}} k_{u}B = \sum_{u}^{N} k_{u}^{2}B. \;\; (5)" />
 </p>
    
-which could be prohibitively expensive, especially in networks with large-degree of nodes. This issue can be addressed by precomputing and maintaining the interactions between every node and all its neighbours,
+  When the average degree is fixed, the problem is less severe in networks with homogeneous degree distritbuon, since the complexitiy above becomes <img src="https://latex.codecogs.com/svg.image?\inline&space;N&space;\langle&space;k\rangle^2B" title="\inline N \langle k\rangle^2B" />. However, the computation time could become prohibitively expensive in networks with heterogeneous degree distributions, where some nodes acquire significantly larger degrees than others.
+  
+<br>
+This issue can be addressed by precomputing and maintaining the interactions between every node and all its neighbours,
 
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?\mathcal{I}^{u}_{r}&space;=&space;\prod_{w&space;\in&space;\partial&space;u}\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}.\;\;(6)" title="\mathcal{I}^{u}_{r} = \prod_{w \in \partial u}\frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}.\;\;(6)" />
 </p>
 
+Then, we can update the message sending out from _u_ to _v_ as follows,
+<p align="center">
+ <img src="https://latex.codecogs.com/svg.image?\mu_{r}^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_{r}}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\times&space;\mathcal{I}_{r}^{u}&space;\times&space;\left(&space;\frac{\sum_{s=1}^{B}&space;\mu_{s}^{w&space;\rightarrow&space;u}&space;g(\theta_{w},&space;\theta_{u},&space;\lambda_{rs},&space;A_{uw})}{\sum_{s=1}^{B}&space;\mu_{s}^{w}&space;g(\theta_{w},&space;\theta_{u},&space;\lambda_{rs},&space;0)}\right)^{-1}," title="\mu_{r}^{u \rightarrow v} = \frac{\gamma_{r}}{Z^{u \rightarrow v}} e^{-H_{r}} \times \mathcal{I}_{r}^{u} \times \left( \frac{\sum_{s=1}^{B} \mu_{s}^{w \rightarrow u} g(\theta_{w}, \theta_{u}, \lambda_{rs}, A_{uw})}{\sum_{s=1}^{B} \mu_{s}^{w} g(\theta_{w}, \theta_{u}, \lambda_{rs}, 0)}\right)^{-1}," />
+ </p>
+ which requires only constant amount of computations to update. 
+<br> 
 We have implmented both of the original and the improved ways for updating BP equations. The different in running time between the two update scheme can be seen by excuting the `test_compare_bp_running_time.py` file. One can play around with the parameters of the simulation to see how does the difference between the two changes. For example, as shown in Fig.1, if one change shape parameter of the Zipf's distribution <img src="https://latex.codecogs.com/svg.image?\zeta" title="\zeta" />, the degree distribution should becomes more heterogeneous, making the advantage of the improved updating scheme more clear. 
 
 ### Other implementation of BP for community dection
