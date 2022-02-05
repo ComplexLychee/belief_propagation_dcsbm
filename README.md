@@ -3,7 +3,7 @@ This repository provides an implementation of the belief propagtion (BP) algorit
 
 Run the following code to see whether the BP algorithm is really working.
 ```
-python3.9 text_bp_accuracy.py
+python3.9 test_bp_accuracy.py
 
 # output
 
@@ -13,7 +13,7 @@ Is modified: False; Partition overlap after BP: 0.945
 
 Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below.
 ```
-python3.9 text_compare_bp_running_time.py
+python3.9 test_compare_bp_running_time.py
 
 # output
 
@@ -57,25 +57,27 @@ Our comparison is done in networks with N = 10^5 nodes, B = 2 communities, and a
 <br><br>
 ### The unncessarily repeated computations in updating BP
 To explain the reapeated computations which have been overlooked by existed implementation of BP, we firstly recall the BP messages to be updated for the DC-SBM: 
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?&space;\mu_r^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_r}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u&space;\setminus&space;v}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}," title=" \mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}," />
-</p>
 
+<p align="center">
+ <img src="https://latex.codecogs.com/svg.image?\mu_r^{u&space;\rightarrow&space;v}&space;=&space;\frac{\gamma_r}{Z^{u&space;\rightarrow&space;v}}&space;e^{-H_{r}}&space;\prod_{w&space;\in&space;\partial&space;u&space;\setminus&space;v}&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)},&space;\;\;&space;(1)" title="\mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}, \;\; (1)" /> 
+ </p>
+ 
 where <img src="https://latex.codecogs.com/svg.image?\inline&space;\partial&space;u" title="\inline \partial u" /> is the neighbouring set of node <img src="https://latex.codecogs.com/svg.image?\inline&space;u" title="\inline u" />, and the function *g* is the Poisson probability 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?g(\theta_{u},&space;\theta_{v},&space;\lambda_{rs},&space;A_{uv})&space;=&space;e^{-\theta_{u}\theta_{v}\lambda_{rs}}&space;\frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}" title="g(\theta_{u}, \theta_{v}, \lambda_{rs}, A_{uv}) = e^{-\theta_{u}\theta_{v}\lambda_{rs}} \frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!} ," />
+<img src="https://latex.codecogs.com/svg.image?g(\theta_{u},&space;\theta_{v},&space;\lambda_{rs},&space;A_{uv})&space;=&space;e^{-\theta_{u}\theta_{v}\lambda_{rs}}&space;\frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}.&space;\;\;&space;(2)" title="g(\theta_{u}, \theta_{v}, \lambda_{rs}, A_{uv}) = e^{-\theta_{u}\theta_{v}\lambda_{rs}} \frac{(\theta_{u}\theta_{v}\lambda_{rs})^{A_{uv}}}{A_{uv}!}. \;\; (2)" />
+</p>
 
 The <img src="https://latex.codecogs.com/svg.image?H_r" title="H_r," /> is defined as 
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large) ." />
+<img src="https://latex.codecogs.com/svg.image?&space;H_{r}&space;=&space;-&space;\sum_w&space;\log&space;\large(\sum_{s&space;=1}^{B}&space;\mu_s^w&space;g(\theta_w,\theta_u,\lambda_{rs},0)\large)&space;\;\;&space;(3)" title=" H_{r} = - \sum_w \log \large(\sum_{s =1}^{B} \mu_s^w g(\theta_w,\theta_u,\lambda_{rs},0)\large) \;\; (3)" />
 </p>
 For detailed derivation please refer to the paper by Xiaoran Yan[1].
-
+<br>
 Now consider a node *u* in the network and the messages sending out to its two neighbours, say _v1_ and _v2_. Many terms are repeatedly computeted in the product in the equation (1). Specifically, the following ratio value is the same but will be recomputed when we update messages sending from _u_ to _v1_ and _v2_,  
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?&space;\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}," title=" \mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}," />
+ <img src="https://latex.codecogs.com/svg.image?\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)},&space;\;\;&space;(4)" title="\mu_r^{u \rightarrow v} = \frac{\gamma_r}{Z^{u \rightarrow v}} e^{-H_{r}} \prod_{w \in \partial u \setminus v} \frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}, \;\; (4)" /> 
 </p>
 
 for any node *w* which is also a neightour of node *u*.
@@ -87,13 +89,17 @@ for any node *w* which is also a neightour of node *u*.
 The amount of wasted computations is roughly at the scale of 
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\sum_{(u,v)&space;\in&space;\mathcal{E}}&space;k_{u}B&space;=&space;\sum_{u}^{N}&space;k_{u}^{2}B," title="\sum_{(u,v) \in \mathcal{E}} k_{u}B = \sum_{u}^{N} k_{u}^{2}B,"/></p>
+<img src="https://latex.codecogs.com/svg.image?\sum_{(u,v)&space;\in&space;\mathcal{E}}&space;k_{u}B&space;=&space;\sum_{u}^{N}&space;k_{u}^{2}B.&space;\;\;&space;(5)" title="\sum_{(u,v) \in \mathcal{E}} k_{u}B = \sum_{u}^{N} k_{u}^{2}B. \;\; (5)" />
+</p>
    
-which could be prohibitively expensive, especially in heterogeneous networks with large-degree or nodes. This issue can be addressed by precomputing and maintaining the interactions between every node and all its neighbours,
+which could be prohibitively expensive, especially in networks with large-degree of nodes. This issue can be addressed by precomputing and maintaining the interactions between every node and all its neighbours,
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?\mathcal{I}^{u}_{r}&space;\coloneqq&space;\prod_{w&space;\in&space;\partial&space;u}\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}" title="\mathcal{I}^{u}_{r} \coloneqq \prod_{w \in \partial u}\frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}"/></p>
-    
+<img src="https://latex.codecogs.com/svg.image?\inline&space;\mathcal{I}^{u}_{r}&space;\coloneqq&space;\prod_{w&space;\in&space;\partial&space;u}\frac{\sum_{s=1}^B&space;\mu_s^{w&space;\rightarrow&space;u}&space;g(\theta_w,&space;\theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B&space;\mu_s^w&space;g(\theta_w,&space;\theta_u,\lambda_{rs},0)}.\;\;(6)" title="\inline \mathcal{I}^{u}_{r} \coloneqq \prod_{w \in \partial u}\frac{\sum_{s=1}^B \mu_s^{w \rightarrow u} g(\theta_w, \theta_u,\lambda_{rs},A_{uw})}{\sum_{s=1}^B \mu_s^w g(\theta_w, \theta_u,\lambda_{rs},0)}.\;\;(6)" />
+</p>
+
+We have implmented both of the original and the improved ways for updating BP equations. The different in running time between the two update scheme can be seen by excuting the 'test_compare_bp_running_time.py' file. One can play around with the parameters of the simulation to see how does the difference between the two changes. For example, if one change shape parameter of the Zipf's distribution <img src="https://latex.codecogs.com/svg.image?\zeta" title="\zeta" />, the degree distribution should becomes more heterogeneous, making the advantage of the improved updating scheme more clear. 
+
 ### Other implementation of BP for community dection
 If you have your data and like to apply BP to analyse your data, you might want check one of the following available packages:
 
