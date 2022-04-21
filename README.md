@@ -13,7 +13,7 @@ Is modified: False; Partition overlap before BP: 0.51
 Is modified: False; Partition overlap after BP: 0.945
 ```
 
-Run the following code to see difference in running time between different ways of updating the BP equations. This comparison is related to two different ways of updating the BP equations as to be explained below.
+Run the following code to see difference in running time between different ways of updating the BP equations. explanation for the two different ways of updating the BP equations is given below.
 ```
 python3.9 test_compare_bp_running_time.py
 
@@ -31,7 +31,7 @@ Computing the marginal probability with BP requires the parameters of the model 
 Another important application of the BP algorithm is in the studies of phase-transition phenomenon in of high-dimensional inference problems. In particular, for community detection with SBMs, BP plays an important role in shaping our understanding about the detectability of planted community structure in networks[3-4].
 
 ### What is going on here
-The main pupose of this repository is to provide a reference for anyone who wants to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see a list below), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but likes to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
+The main pupose of this repository is to provide a reference for anyone who wants to write his/her first BP implementation. Although the BP algorithm is elegant and easy to comprehend, for people who are new to the algorithm, the learning curve could be steep for implmenting the algorithm. There are several existed packages for implementing BP (see the list at the bottom), but none of them are done in Python. This is mainly due to the efficiency consideration. As a result, existed resources are not straight-forward for someone who only has background in Python but likes to understand BP and its implementation. We hope the examples provided here could be a helpful reference for picking up the key steps in the implementation of BP for community dectection. 
 
 Moreover, we like to add a commment on the computation complexity of BP. There is a nuance between applying BP to networks with homogenous and heterogeneous degree distribution. The nuance is related to the fact that there are many unnecessarily repeated computations could have been avoided when we update BP equations. When the averaged degree is fixed, the amount of repeated computations is more problematic in network with heterogeneous degree distribution than the homogeneous case. We can save almost a half of the computation time if we adopt a modfied way of updating the BP equations, as shown in the following figure. Up to the time when this repository is produced, ***none*** of any existed BP implementations has taken this nucance into account. 
 
@@ -114,7 +114,7 @@ Then, we can update the message sending out from _u_ to _v_ as follows,
 
 We have implmented both of the original and the improved ways for updating BP equations. The different in running time between the two update scheme can be seen by excuting the `test_compare_bp_running_time.py` file. One can play around with the parameters of the simulation to see how does the difference between the two changes. For example, as shown in Fig.1, if one change shape parameter of the Zipf's distribution <img src="https://latex.codecogs.com/svg.image?\zeta" title="\zeta" />, the degree distribution should becomes more heterogeneous, making the advantage of the improved updating scheme more clear. 
 
-### Other implementation of BP for community dection
+### Other implementations of BP for community dection
 If you have networks and like to apply BP (EM) to identify communities in them, you might want to the following available packages, which are efficient and pratical than the examples we provide in this repository.
 
 - <a href="https://graph-tool.skewed.de/static/doc/inference.html#graph_tool.inference.EMBlockState/">graph-tool</a>: a python library with algorihtms being implemented in C++
